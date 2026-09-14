@@ -10,6 +10,8 @@ The app supports three main workflows:
 * **Ship 30 for 30** — turn research into a roughly 1,250-word piece using Ship 30 writing principles.
 * **Artifacts** — generate Markdown or HTML/CSS documents and view them directly inside the app.
 
+Quick start: git clone the repo, run cp .env.example .env, run ollama pull llama3.2:3b, then docker compose up --build. Open http://localhost:5173. The transcripts and FAISS index are already included — no ingestion needed.
+
 ## What I built
 
 The application has a React frontend, FastAPI backend, PostgreSQL database, local transcript retrieval, and a model/provider layer that supports both Anthropic and Ollama.
@@ -126,6 +128,8 @@ The application supports:
 * `llama3.2:3b` for the local demo
 
 ## Running locally
+> **Note for evaluators:** The Lenny transcripts and the prebuilt FAISS index are already included in this repository. You do NOT need to run any ingestion step — just clone, set up Ollama, and start the app.
+
 
 ### Prerequisites
 
