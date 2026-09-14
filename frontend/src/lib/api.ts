@@ -107,11 +107,15 @@ export class ApiClient {
 
   // Messages
   async sendMessage(sessionId: string, request: CreateMessageRequest): Promise<CreateMessageResponse> {
-    const response = await this.client.post<CreateMessageResponse>(
+    const response = await this.client.post<any>(
       `/sessions/${sessionId}/messages`,
       request
     );
-    return response.data;
+    const msg = response.data;
+    if (msg && msg.message_metadata && !msg.metadata) {
+      msg.metadata = msg.message_metadata;
+    }
+    return msg;
   }
 
   // Artifacts
