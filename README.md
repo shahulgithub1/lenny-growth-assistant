@@ -190,7 +190,7 @@ host.docker.internal:11434
 ### 4. Start the application
 
 ```bash
-./start.sh
+docker compose up --build
 ```
 
 The application starts the required Docker services.
