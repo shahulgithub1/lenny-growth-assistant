@@ -7,7 +7,7 @@ set -e
 
 echo "================================"
 echo "The Lenny Growth Assistant"
-echo "Phase 1: Project Foundation"
+echo "Quick Start"
 echo "================================"
 echo ""
 
