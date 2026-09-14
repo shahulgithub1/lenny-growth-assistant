@@ -371,7 +371,17 @@ Generate artifacts that feel production-ready, polished, and professionally desi
         # For grounded Q&A, retrieve chunks directly
         retrieved_chunks = []
         if skill in ["grounded_qa", "ship30"]:
-            retrieved_chunks = retrieval_service.retrieve_chunks(user_message)
+            # Build a retrieval query that includes recent context so short
+            # follow-ups like "What about activation?" still retrieve well.
+            retrieval_query = user_message
+            if len(user_message.strip()) < 60:
+                prior_user_msgs = [
+                    m.content for m in conversation_history
+                    if m.role == "user" and m.content != user_message
+                ]
+                if prior_user_msgs:
+                    retrieval_query = prior_user_msgs[-1] + " " + user_message
+            retrieved_chunks = retrieval_service.retrieve_chunks(retrieval_query)
             
             if not retrieved_chunks and skill == "grounded_qa":
                 return {
