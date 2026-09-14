@@ -98,13 +98,13 @@ lerna-debug.log*
 docker-compose.override.yml
 
 # Data and models
-backend/data/faiss_index.bin
-backend/data/chunk_mapping.json
-backend/data/embeddings.npy
-backend/data/*.index
-ingestion/data/transcripts/
+# backend/data/faiss_index.bin
+# backend/data/chunk_mapping.json
+# backend/data/embeddings.npy
+# backend/data/*.index
+# ingestion/data/transcripts/
 *.model
-*.bin
+#*.bin
 
 # OS
 Thumbs.db
