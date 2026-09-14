@@ -157,12 +157,16 @@ async def send_message(
                 }
             )
             db.add(artifact)
-            
+            db.flush()
+
             # Update assistant message metadata with artifact reference
             if assistant_message.message_metadata is None:
                 assistant_message.message_metadata = {}
-            assistant_message.message_metadata["artifact_id"] = str(artifact.id)
-    
+            assistant_message.message_metadata = {
+                **assistant_message.message_metadata,
+                "artifact_id": str(artifact.id)
+            }
+
     # Update session timestamp
     session.updated_at = assistant_message.created_at
     if not session.title and len(messages) == 1:
@@ -190,11 +194,10 @@ def _extract_artifact(content: str) -> tuple[str, str | None]:
         if html_match:
             return "html", html_match.group(0)
     
-    # Check for Markdown artifact (heuristic: multiple headers + substantial content)
-    if content.count('\n#') >= 2 and len(content) > 500:
-        # Likely markdown document
+    # Markdown fallback: any substantial text routed to the artifact skill
+    if len(content) > 100:
         return "markdown", content
-    
+
     return "markdown", None
 
 

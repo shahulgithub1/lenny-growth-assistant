@@ -8,7 +8,7 @@ import { LoadingMessage } from './LoadingMessage';
 import { ErrorMessage } from './ErrorMessage';
 
 export const ConversationArea: React.FC = () => {
-  const { currentSession, setCurrentSession, sessions, setSessions } = useApp();
+  const { currentSession, setCurrentSession, sessions, setSessions, openArtifactViewer } = useApp();
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -68,6 +68,15 @@ export const ConversationArea: React.FC = () => {
         content,
         model_provider: 'ollama', // Can be made configurable
       });
+      const artifactId = (response as any)?.message_metadata?.artifact_id || (response as any)?.metadata?.artifact_id;
+      if (artifactId) {
+        try {
+          const artifact = await apiClient.getArtifact(artifactId);
+          openArtifactViewer(artifact);
+        } catch (e) {
+          console.error('Failed to load artifact', e);
+        }
+      }
 
       // Remove temp user message and add assistant response
       // (The backend stores both user and assistant messages, but only returns the assistant message)

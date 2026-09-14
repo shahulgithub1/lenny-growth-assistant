@@ -373,7 +373,7 @@ Generate artifacts that feel production-ready, polished, and professionally desi
         if skill in ["grounded_qa", "ship30"]:
             retrieved_chunks = retrieval_service.retrieve_chunks(user_message)
             
-            if not retrieved_chunks:
+            if not retrieved_chunks and skill == "grounded_qa":
                 return {
                     "content": "I don't have enough information in Lenny's transcripts to answer this question confidently.",
                     "sources": [],
